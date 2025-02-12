@@ -20,13 +20,91 @@ model User {
   email         String
   emailVerified Boolean
   image         String?
+  role          Role      @default(CUSTOMER)
   createdAt     DateTime
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  Booking       Booking[]
 
   @@unique([email])
   @@map("user")
+}
+
+model HotelInfo {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  address     String
+  city        String
+  country     String
+  phoneNumber String?
+  email       String?
+  website     String?
+  updatedAt   DateTime @updatedAt
+}
+
+model RoomType {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  basePrice   Float
+  capacity    Int
+  amenities   String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  rooms       Room[]
+}
+
+model Room {
+  id         String     @id @default(cuid())
+  roomNumber String     @unique
+  roomTypeId String
+  roomType   RoomType   @relation(fields: [roomTypeId], references: [id])
+  status     RoomStatus @default(AVAILABLE)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  bookings   Booking[]
+}
+
+model Booking {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id])
+  roomId     String
+  room       Room          @relation(fields: [roomId], references: [id])
+  checkIn    DateTime
+  checkOut   DateTime
+  totalPrice Float
+  status     BookingStatus
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Amenity {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  CUSTOMER
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
 }
 
 model Session {
