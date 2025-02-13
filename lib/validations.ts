@@ -23,3 +23,9 @@ export const roomTypeSchema = z.object({
   capacity: z.number().min(1, "กรุณากรอกความจุ"),
   basePrice: z.number().min(1, "กรุณากรอกราคา"),
 });
+
+export const roomSchema = z.object({
+  roomNumber: z.string().min(1, "กรุณากรอกชื่อห้องพัก"),
+  roomTypeId: z.string().min(1, "กรุณาเลือกประเภทห้องพัก"),
+  status: z.enum(["AVAILABLE", "OCCUPIED", "MAINTENANCE"]),
+});
