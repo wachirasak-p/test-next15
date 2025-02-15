@@ -1,5 +1,6 @@
 import {
   BedDouble,
+  Calendar,
   GalleryVerticalEnd,
   Hotel,
   LayoutDashboard,
@@ -41,22 +42,23 @@ export const admin = {
       icon: BedDouble,
     },
     {
-      title: "Manage User",
+      title: "จัดการการจอง",
+      url: "/admin/bookings",
+      icon: Calendar,
+    },
+    {
+      title: "จัดการผู้ใช้งาน",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "Admins",
-          url: "/manage-user/admin",
+          title: "บุคลากร",
+          url: "/admin/manage-user/internal-users",
         },
         {
-          title: "Mechanics",
-          url: "#",
-        },
-        {
-          title: "Users",
-          url: "#",
+          title: "ลูกค้า",
+          url: "/admin/manage-user/members",
         },
       ],
     },
