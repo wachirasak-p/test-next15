@@ -1,8 +1,10 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@prisma/client";
+import { customSession } from "better-auth/plugins";
 
 const prisma = new PrismaClient();
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
@@ -10,4 +12,23 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  plugins: [
+    customSession(async ({ user, session }) => {
+      const findUserRoles = async (userId: string) => {
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
+        });
+        return user?.role;
+      };
+      const role = await findUserRoles(session.userId);
+      return {
+        user: {
+          ...user,
+          role,
+        },
+
+        session,
+      };
+    }),
+  ],
 });
