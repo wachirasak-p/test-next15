@@ -20,7 +20,7 @@ model User {
   email         String
   emailVerified Boolean
   image         String?
-  role          Role      @default(CUSTOMER)
+  role          Role      @default(MEMBER)
   createdAt     DateTime
   updatedAt     DateTime
   sessions      Session[]
@@ -91,7 +91,7 @@ model Amenity {
 enum Role {
   ADMIN
   STAFF
-  CUSTOMER
+  MEMBER
 }
 
 enum RoomStatus {
