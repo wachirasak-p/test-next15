@@ -24,15 +24,14 @@ export function DeleteRoom({ room }: { room: Room }) {
 
   const handleDelete = async () => {
     try {
-      const result = await deleteRoom(room.id);
-      if (!result.success) {
-        throw new Error(result.message);
+      const { success, message } = await deleteRoom(room.id);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
-      toast.success("ลบห้องพักเรียบร้อยแล้ว");
-      setIsOpen(false);
     } catch (error) {
-      toast.error("ไม่สามารถลบห้องพักได้");
-      console.error("Error deleting room:", error);
+      console.error(error);
     }
   };
 

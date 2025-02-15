@@ -22,15 +22,14 @@ export function DeleteRoomType({ roomType }: { roomType: RoomType }) {
 
   const handleDelete = async () => {
     try {
-      const result = await deleteRoomType(roomType.id);
-      if (!result.success) {
-        throw new Error(result.message);
+      const { success, message } = await deleteRoomType(roomType.id);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
-      toast.success("ลบประเภทห้องพักเรียบร้อยแล้ว");
-      setIsOpen(false);
     } catch (error) {
-      toast.error("ไม่สามารถลบประเภทห้องพักได้");
-      console.error("Error deleting room type:", error);
+      console.error(error);
     }
   };
 

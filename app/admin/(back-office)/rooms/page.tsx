@@ -5,6 +5,11 @@ import { getRoomTypes } from "@/actions/room-type";
 
 const RoomsPage = async () => {
   const { data, success } = await getRoomTypes();
+
+  if (!success) {
+    return <div>เกิดข้อผิดพลาดในการดึงข้อมูลประเภทห้องพัก</div>;
+  }
+
   return (
     <div className="flex flex-1 p-4 pt-0 flex-col gap-4">
       <div className="flex justify-end">

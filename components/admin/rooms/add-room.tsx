@@ -57,21 +57,16 @@ export function AddRoom({ roomTypes }: RoomTypeProps) {
   const onSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      const result = await createRoom(values);
-
-      if (!result.success) {
-        throw new Error(result.message);
-      }
-
-      toast.success(result.message);
-      form.reset();
-      setOpen(false);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+      const { success, message } = await createRoom(values);
+      if (success) {
+        toast.success(message);
+        form.reset();
+        setOpen(false);
       } else {
-        toast.error("ไม่สามารถเพิ่มห้องพักได้ กรุณาลองใหม่อีกครั้ง");
+        toast.error(message);
       }
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

@@ -5,7 +5,7 @@ import { RoomTypeWithRooms } from "@/types/prisma-types";
 import { EditRoomType } from "@/components/admin/room-types/edit-room-type";
 import { DeleteRoomType } from "@/components/admin/room-types/delete-room-type";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { ArrowUpDown, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 export const columns: ColumnDef<RoomTypeWithRooms>[] = [
   {
@@ -22,7 +22,18 @@ export const columns: ColumnDef<RoomTypeWithRooms>[] = [
   },
   {
     accessorKey: "basePrice",
-    header: "ราคา",
+    // header: "ราคา",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ราคา
+          <ArrowUpDown />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "actions",

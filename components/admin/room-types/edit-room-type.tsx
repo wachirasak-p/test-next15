@@ -84,20 +84,16 @@ export function EditRoomType({ roomType }: EditRoomTypeProps) {
   const onSubmit = async (values: FormData) => {
     setIsLoading(true);
     try {
-      const result = await updateRoomType(roomType.id, values);
-
-      if (!result.success) {
-        throw new Error(result.message);
-      }
-
-      toast.success("แก้ไขประเภทห้องพักเรียบร้อยแล้ว");
-      setOpen(false);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+      const { success, message } = await updateRoomType(roomType.id, values);
+      if (success) {
+        toast.success(message);
+        form.reset();
+        setOpen(false);
       } else {
-        toast.error("ไม่สามารถแก้ไขประเภทห้องพักได้ กรุณาลองใหม่อีกครั้ง");
+        toast.error(message);
       }
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

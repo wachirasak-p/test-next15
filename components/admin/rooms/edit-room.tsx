@@ -63,12 +63,11 @@ export function EditRoom({ room }: EditRoomProps) {
         try {
           const result = await getRoomById(room.id);
           if (!result.success) {
-            throw new Error(result.message);
+            toast.error(result.message);
           }
-
           const roomTypes = await getRoomTypes();
           if (!roomTypes.success) {
-            throw new Error(roomTypes.message);
+            toast.error(roomTypes.message);
           }
 
           setRoomTypes(roomTypes.data || []);
@@ -79,8 +78,7 @@ export function EditRoom({ room }: EditRoomProps) {
             status: result.data?.status || "AVAILABLE",
           });
         } catch (error) {
-          toast.error("ไม่สามารถดึงข้อมูลประเภทห้องพักได้");
-          console.error("Error fetching room type:", error);
+          console.log(error);
           setOpen(false);
         } finally {
           setIsFetching(false);
