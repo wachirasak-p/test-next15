@@ -45,15 +45,16 @@ model HotelInfo {
 }
 
 model RoomType {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String
   basePrice   Float
   capacity    Int
   amenities   String[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   rooms       Room[]
+  Booking     Booking[]
 }
 
 model Room {
@@ -69,14 +70,19 @@ model Room {
 
 model Booking {
   id         String        @id @default(cuid())
-  userId     String
-  user       User          @relation(fields: [userId], references: [id])
-  roomId     String
-  room       Room          @relation(fields: [roomId], references: [id])
+  name       String
+  email      String?
+  phone      String
+  roomTypeId String
+  roomType   RoomType      @relation(fields: [roomTypeId], references: [id])
+  userId     String?
+  user       User?         @relation(fields: [userId], references: [id])
+  roomId     String?
+  room       Room?         @relation(fields: [roomId], references: [id])
   checkIn    DateTime
   checkOut   DateTime
   totalPrice Float
-  status     BookingStatus
+  status     BookingStatus @default(PENDING)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 }

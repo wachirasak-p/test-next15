@@ -29,3 +29,13 @@ export const roomSchema = z.object({
   roomTypeId: z.string().min(1, "กรุณาเลือกประเภทห้องพัก"),
   status: z.enum(["AVAILABLE", "OCCUPIED", "MAINTENANCE"]),
 });
+
+export const bookingSchema = z.object({
+  name: z.string().min(1, "กรุณากรอกชื่อ"),
+  email: z.string().email("รูปแบบอีเมลไม่ถูกต้อง"),
+  phone: z.string().min(1, "กรุณากรอกหมายเลขโทรศัพท์"),
+  roomTypeId: z.string().min(1, "กรุณาเลือกประเภทห้องพัก"),
+  checkIn: z.date(),
+  checkOut: z.date(),
+  totalPrice: z.number().min(1, "กรุณากรอกราคา"),
+});
