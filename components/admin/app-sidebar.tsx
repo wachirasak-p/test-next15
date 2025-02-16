@@ -12,9 +12,18 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-import { admin, user, company } from "@/constants/sidebar";
+import { admin, company } from "@/constants/sidebar";
+import { useSession } from "@/lib/auth-client";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data } = useSession();
+  const user = {
+    name: data?.user?.name ?? "",
+    email: data?.user?.email ?? "",
+    avatar: data?.user?.image ?? "",
+    role: data?.user?.role ?? "",
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
